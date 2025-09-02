@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const expect = require('chai');
 const socket = require('socket.io');
 const cors = require('cors');
+const helmet = require('helmet');
 
 const fccTestingRoutes = require('./routes/fcctesting.js');
 const runner = require('./test-runner.js');
@@ -15,6 +16,9 @@ app.use('/assets', express.static(process.cwd() + '/assets'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(helmet());
+app.use(helmet.xssFilter());
+app.use(helmet.noCache());
 
 //For FCC testing purposes and enables user to connect from outside the hosting platform
 app.use(cors({origin: '*'})); 
@@ -51,6 +55,13 @@ const server = app.listen(portNum, () => {
       }
     }, 1500);
   }
+});
+
+const io = socket.listen(server)
+
+io.on('connection', (socket) => {
+    console.log('a user connected');
+    // ... your game logic
 });
 
 module.exports = app; // For testing
