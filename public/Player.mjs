@@ -37,11 +37,20 @@ class Player {
   }
 
   collision(item) {
-
+    if (this.x < item.x + 20 &&
+      this.x + 20 > item.x &&
+      this.y < item.y + 20 &&
+      this.y + 20 > item.y) {
+        this.score += item.value;
+        return true;
+    }
+    return false;
   }
 
   calculateRank(arr) {
-
+    arr.sort((a, b) => b.score - a.score);
+    let currentRank = arr.findIndex(p => p.id === this.id) + 1;
+    return `Rank: ${currentRank} / ${arr.length}`;
   }
 }
 
