@@ -104,6 +104,12 @@ io.on('connection', (socket) => {
     }
     socket.emit('rank', ranks);
   });
+
+  socket.on('disconnect', () => {
+    // console.log('user disconnected');
+    delete players[socket.id];
+    io.emit('state', {players, collectible});
+  });
 });
 
 function generateRandomId() {

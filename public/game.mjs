@@ -55,7 +55,8 @@ socket.on('state', function (Serverstate) {
 document.addEventListener('keydown', (event) => {
     const keyName = event.key;
     // console.log('keydown event\n\n' + 'key: ' + keyName);
-    player.movePlayer(keyName, 20);
+    let move = Math.floor(Math.random() * 50);
+    player.movePlayer(keyName, move);
     socket.emit('move player', player);
     //   if (!keys[event.key]) { // Only emit once per key press
     //     keys[event.key] = true;
